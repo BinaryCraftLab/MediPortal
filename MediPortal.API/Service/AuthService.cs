@@ -80,6 +80,11 @@ namespace MediPortal.API.Service
                 Email = registrationRequestDto.Email,
                 NormalizedEmail = registrationRequestDto.Email.ToUpper(),
                 FirstName = registrationRequestDto.FirstName,
+                LastName = registrationRequestDto.LastName,
+                City  = registrationRequestDto.City,
+                State = registrationRequestDto.State,
+                PostalCode  = registrationRequestDto.PostalCode,
+                Address= registrationRequestDto.Address,
                 PhoneNumber = registrationRequestDto.PhoneNumber
             };
 
@@ -88,15 +93,22 @@ namespace MediPortal.API.Service
                 var result = await _userManager.CreateAsync(user, registrationRequestDto.Password);
                 if (result.Succeeded)
                 {
+                   
                     var userToReturn = _db.ApplicationUsers.First(u => u.UserName == registrationRequestDto.Email);
-
+                    await AssignRole(registrationRequestDto.Email, "Patient");
                     UserDto userDto = new()
                     {
                         Email = userToReturn.Email,
                         ID = userToReturn.Id,
                         FirstName = userToReturn.FirstName,
-                        LastName = userToReturn.LastName,
+                        LastName =  userToReturn.LastName,
+                        City  = userToReturn.City,
+                        Country  = userToReturn.Country,
+                        Address  = userToReturn.Address,
+                        State  = userToReturn.State,
+                        PostalCode  = userToReturn.PostalCode,
                         PhoneNumber = userToReturn.PhoneNumber
+                       
                     };
 
                     return "";

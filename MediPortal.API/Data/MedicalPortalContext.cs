@@ -1,4 +1,5 @@
 ﻿using MediPortal.API.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,26 @@ namespace MediPortal.API.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole
+                {
+                    Id = "0F712A70-B189-46DF-A4C9-373C1F889896",
+                    Name ="Patient",
+                    NormalizedName ="PATIENT"
+                },
+                new IdentityRole
+                {
+                    Id = "0F712A70-B189-46DF-A4C9-373C1F889895",
+                    Name = "Doctor",
+                    NormalizedName = "DOCTOR"
+                },
+                new IdentityRole
+                {
+                    Id = "0F712A70-B189-46DF-A4C9-373C1F889894",
+                    Name = "SuperAdmin",
+                    NormalizedName = "SUPERADMIN"
+                }
+            );
         }
     }
 }

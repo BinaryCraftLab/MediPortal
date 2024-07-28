@@ -55,9 +55,9 @@ namespace MediPortal.API.Controllers
 
         [HttpPost("AssignRole")]
         [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> AssignRole([FromBody] RegistrationRequestDto model)
+        public async Task<IActionResult> AssignRole([FromBody] AssignRoleRequestDto model)
         {
-            var assignRoleSuccessful = await _authService.AssignRole(model.Email, model.Role.ToUpper());
+            var assignRoleSuccessful = await _authService.AssignRole(model.Email, model.RoleName.ToUpper());
             if (!assignRoleSuccessful)
             {
                 _response.IsSuccess = false;
