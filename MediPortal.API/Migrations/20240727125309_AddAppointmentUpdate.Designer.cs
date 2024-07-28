@@ -4,6 +4,7 @@ using MediPortal.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediPortal.API.Migrations
 {
     [DbContext(typeof(MedicalPortalContext))]
-    partial class MedicalPortalContextModelSnapshot : ModelSnapshot
+    [Migration("20240727125309_AddAppointmentUpdate")]
+    partial class AddAppointmentUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,24 +33,12 @@ namespace MediPortal.API.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
+                    b.Property<string>("Bio")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -88,10 +79,6 @@ namespace MediPortal.API.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ProfileImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -99,7 +86,7 @@ namespace MediPortal.API.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("State")
+                    b.Property<string>("Speciality")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -121,10 +108,6 @@ namespace MediPortal.API.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("MediPortal.API.Models.Appointment", b =>
@@ -135,37 +118,152 @@ namespace MediPortal.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("AppointmentAddDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("AppointmentTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DoctorId")
+                    b.Property<DateTime>("AppointmnentAddDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DoctorName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Duration")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IsApproved")
+                    b.Property<string>("IsApproved")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PatientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
 
                     b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("MediPortal.API.Models.Patient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DateOfBirth")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NextOfKinName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NextOfKinPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PatientNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Region")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Patients");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Wits, Braam, Campus",
+                            Age = 45,
+                            City = "Polokwane",
+                            Country = "South Africa",
+                            DateOfBirth = "1990-12-13",
+                            FirstName = "Lawrence",
+                            LastName = "Mugwena",
+                            NextOfKinName = "Percy",
+                            NextOfKinPhone = "0791069624",
+                            PatientNumber = "LAWRE123",
+                            Phone = "0722247453",
+                            PostalCode = "1441",
+                            Region = "Thohoyandou"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Wits, Braam, Campus",
+                            Age = 45,
+                            City = "Polokwane",
+                            Country = "South Africa",
+                            DateOfBirth = "1990-12-13",
+                            FirstName = "John",
+                            LastName = "Thendo",
+                            NextOfKinName = "Percy",
+                            NextOfKinPhone = "0791069624",
+                            PatientNumber = "JON123",
+                            Phone = "0722247453",
+                            PostalCode = "1441",
+                            Region = "Thohoyandou"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "Wits, Braam, Campus",
+                            Age = 45,
+                            City = "Polokwane",
+                            Country = "South Africa",
+                            DateOfBirth = "1990-12-13",
+                            FirstName = "John",
+                            LastName = "Smith",
+                            NextOfKinName = "Percy",
+                            NextOfKinPhone = "0791069624",
+                            PatientNumber = "LAWRE123",
+                            Phone = "0722247453",
+                            PostalCode = "1441",
+                            Region = "Thohoyandou"
+                        });
                 });
 
             modelBuilder.Entity("MediPortal.API.Models.PatientRecord", b =>
@@ -186,9 +284,8 @@ namespace MediPortal.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PatientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
 
                     b.Property<string>("RecordContext")
                         .IsRequired()
@@ -199,6 +296,143 @@ namespace MediPortal.API.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("PatientRecords");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateCreate = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Smith",
+                            PatientId = 1,
+                            RecordContext = "Initial consultation. Patient reports headaches and dizziness."
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateCreate = new DateTime(2024, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Johnson",
+                            PatientId = 2,
+                            RecordContext = "Follow-up for respiratory symptoms. Prescribed cough syrup."
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateCreate = new DateTime(2024, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Lee",
+                            PatientId = 3,
+                            RecordContext = "Routine check-up. Blood pressure slightly elevated."
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DateCreate = new DateTime(2024, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Brown",
+                            PatientId = 1,
+                            RecordContext = "Patient presents with abdominal pain. Recommended ultrasound."
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DateCreate = new DateTime(2024, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Green",
+                            PatientId = 2,
+                            RecordContext = "Routine diabetes check. A1C levels are stable."
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DateCreate = new DateTime(2024, 6, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Adams",
+                            PatientId = 3,
+                            RecordContext = "Emergency visit for a sprained ankle. Applied a brace."
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DateCreate = new DateTime(2024, 6, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Davis",
+                            PatientId = 1,
+                            RecordContext = "Consultation for back pain. Suggested physical therapy."
+                        },
+                        new
+                        {
+                            Id = 8,
+                            DateCreate = new DateTime(2024, 6, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Wilson",
+                            PatientId = 2,
+                            RecordContext = "Annual physical exam. Cholesterol levels high."
+                        },
+                        new
+                        {
+                            Id = 9,
+                            DateCreate = new DateTime(2024, 6, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Moore",
+                            PatientId = 2,
+                            RecordContext = "Routine follow-up for high blood pressure. Medication adjusted."
+                        },
+                        new
+                        {
+                            Id = 10,
+                            DateCreate = new DateTime(2024, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Taylor",
+                            PatientId = 1,
+                            RecordContext = "Patient experiencing insomnia. Prescribed sleep aids."
+                        },
+                        new
+                        {
+                            Id = 11,
+                            DateCreate = new DateTime(2024, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Martinez",
+                            PatientId = 3,
+                            RecordContext = "Routine immunization. Administered flu vaccine."
+                        },
+                        new
+                        {
+                            Id = 12,
+                            DateCreate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Clark",
+                            PatientId = 1,
+                            RecordContext = "Consultation for skin rash. Prescribed topical ointment."
+                        },
+                        new
+                        {
+                            Id = 13,
+                            DateCreate = new DateTime(2024, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Lewis",
+                            PatientId = 2,
+                            RecordContext = "Follow-up for asthma. Adjusted inhaler dosage."
+                        },
+                        new
+                        {
+                            Id = 14,
+                            DateCreate = new DateTime(2024, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Walker",
+                            PatientId = 3,
+                            RecordContext = "Patient with persistent cough. Recommended chest X-ray."
+                        },
+                        new
+                        {
+                            Id = 15,
+                            DateCreate = new DateTime(2024, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateUpdate = new DateTime(2024, 6, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorName = "Dr. Harris",
+                            PatientId = 1,
+                            RecordContext = "Routine eye exam. No significant changes detected."
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -334,62 +568,13 @@ namespace MediPortal.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("MediPortal.API.Models.Doctor", b =>
-                {
-                    b.HasBaseType("MediPortal.API.Models.ApplicationUser");
-
-                    b.Property<string>("Bio")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Specialization")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("Doctor");
-                });
-
-            modelBuilder.Entity("MediPortal.API.Models.Patient", b =>
-                {
-                    b.HasBaseType("MediPortal.API.Models.ApplicationUser");
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DateOfBirth")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NextOfKinName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NextOfKinPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PatientNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("Patient");
-                });
-
             modelBuilder.Entity("MediPortal.API.Models.Appointment", b =>
                 {
-                    b.HasOne("MediPortal.API.Models.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MediPortal.API.Models.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Doctor");
 
                     b.Navigation("Patient");
                 });

@@ -12,7 +12,7 @@ namespace MediPortal.API.Models
         public string RecordContext { get; set; }
         public string DoctorName { get; set; }
         [ForeignKey(nameof(Patient))]
-        public int PatientId { get; set; }
+        public string PatientId { get; set; }
         public Patient Patient { get; set; }
     }
 }

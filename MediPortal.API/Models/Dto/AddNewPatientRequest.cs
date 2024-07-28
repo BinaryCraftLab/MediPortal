@@ -6,6 +6,6 @@ namespace MediPortal.API.Models.Dto
     {
         public required string RecordContext { get; set; }
         public required string DoctorName { get; set; }
-        public required int PatientId { get; set; }
+        public required string PatientId { get; set; }
     }
 }
